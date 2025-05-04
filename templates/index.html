@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Welcome to Toxic Comment Detection</h1>
+    <p>This system detects toxic comments and warns users who post them.</p>
+    
+    <h2>Recent Comments</h2>
+    <div class="comments">
+        {% for comment in comments %}
+            <div class="comment {% if comment.is_toxic %}toxic{% endif %}">
+                <strong>{{ comment.user.username }}</strong>
+                <p>{{ comment.content }}</p>
+                <small>{{ comment.created_at }}</small>
+                {% if comment.is_toxic %}
+                    <span class="toxic-label">TOXIC</span>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

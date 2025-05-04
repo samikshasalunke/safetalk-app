@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Admin Dashboard</h1>
+    
+    <h2>Users</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Warnings</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.warning_count }}</td>
+                    <td>
+                        {% if user.is_blocked %}
+                            <span class="badge badge-danger">Blocked</span>
+                        {% else %}
+                            <span class="badge badge-success">Active</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user.is_blocked %}
+                            <a href="{{ url_for('unblock_user', user_id=user.id) }}" class="btn btn-sm btn-success">Unblock</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <h2>Toxic Comments</h2>
+    <div class="comments">
+        {% for comment in toxic_comments %}
+            <div class="comment toxic">
+                <strong>{{ comment.user.username }}</strong>
+                <p>{{ comment.content }}</p>
+                <small>{{ comment.created_at }}</small>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

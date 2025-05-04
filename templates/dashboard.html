@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Welcome, {{ user.username }}</h1>
+    
+    {% if user.is_blocked %}
+        <div class="alert alert-danger">
+            Your account has been blocked due to multiple toxic comments.
+        </div>
+    {% else %}
+        <div class="warning-count">
+            Warnings: {{ user.warning_count }}/3
+        </div>
+        
+        <h2>Post a Comment</h2>
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.content.label }}
+                {{ form.content(class="form-control", rows=4) }}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn") }}
+            </div>
+        </form>
+    {% endif %}
+    
+    <h2>Recent Comments</h2>
+    <div class="comments">
+        {% for comment in comments %}
+            <div class="comment {% if comment.is_toxic %}toxic{% endif %}">
+                <strong>{{ comment.user.username }}</strong>
+                <p>{{ comment.content }}</p>
+                <small>{{ comment.created_at }}</small>
+                {% if comment.is_toxic %}
+                    <span class="toxic-label">TOXIC</span>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
