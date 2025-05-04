@@ -227,4 +227,6 @@ if __name__ == '__main__':
             )
             db.session.add(admin)
             db.session.commit()
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 10000))  # Render sets the PORT environment variable
+    app.run(debug=False, host='0.0.0.0', port=port)       
+    
